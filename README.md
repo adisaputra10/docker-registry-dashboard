@@ -6,15 +6,15 @@ Ideally suited for private registry management, providing a user-friendly interf
 ## 🚀 Key Features
 
 *   **Registry Management**: Add/Remove multiple registries (Local, Remote).
-*   **Image Browser**: browse repositories, tags, manifest details, and layers.
-*   **Storage Configuration**: easy setup for Filesystem, S3, or SFTP backend storage.
-*   **Docker Integration**: embedded Docker Registry V2 management (Start/Stop/Restart).
+*   **Image Browser**: Browse repositories, tags, manifest details, and layers.
+*   **Storage Configuration**: Easy setup for Filesystem, S3, or SFTP backend storage.
+*   **Docker Integration**: Embedded Docker Registry V2 management (Start/Stop/Restart).
+*   **Vulnerability Scanning**: Integrated security analysis with Trivy and OSV.
 *   **Image Retention & Cleanup**: Automated policies to keep your registry clean.
     *   **Keep Last N Images**: Retain only the most recent builds.
-    *   **Keep Time Window**: Retain images within a specific timeframe (e.g. 7 days).
+    *   **Keep Time Window**: Retain images within a specific timeframe.
     *   **Whitelist Protection**: Regex-based protection for important tags (e.g. `latest`, `stable`).
     *   **Shared Digest Safety**: Smart deletion prevents removing images used by protected tags.
-    *   **Dry Run**: Simulate cleanup actions before permanent deletion.
 
 ## 🛠️ Installation & Usage
 
@@ -36,37 +36,56 @@ go build -o registry-dashboard.exe .
 ./registry-dashboard.exe
 ```
 
-## ⚙️ Configuration
+---
 
-The application stores its configuration in:
-*   **Database**: `data/registry.db` (SQLite) - Stores registry list, retention policies.
-*   **Registry Config**: `registry-config/config.yml` - Generated config for the embedded registry.
+# 📸 Interface Guide & Gallery
 
-## 🧹 Retention Policy Guide
+The following section provides a walkthrough of the management interface.
 
-The Retention feature allows you to define rules for automatic image cleanup.
+## 📂 1. Image Repository Management
+The **Images Browser** serves as the central hub for exploring your registry contents.
 
-### How it Works
-1.  **Define Rules**: Set `Keep Last Count` or `Keep Days`.
-2.  **Whitelist**: Add Regex patterns for tags you NEVER want to delete.
-    *   Example: `^latest$|^main$` protects exact "latest" and "main" tags.
-    *   Example: `v1\..*` protects all v1.x tags.
-3.  **Filter Repos**: Optionally choose to process only specific repositories.
-4.  **Run**: Execute "Run Cleanup Now".
-    *   **Dry Run**: See what *would* happen (Recommended first).
-    *   **Wet Run**: Uncheck Dry Run to actually delete manifests.
+![Image Browser](./web/image1.png)
 
-### Safety Mechanisms
-*   **Fail-Safe**: By default, if no policy is set, nothing is deleted.
-*   **Shared Digest Protection**: If a tag targeted for deletion shares the same image Digest as a protected tag (e.g. `latest`), the underlying image will **NOT** be deleted.
+- **Registry Selection**: A dynamic dropdown allows you to switch between multiple connected registries.
+- **Global Search**: The header search bar provides instant filtering across repositories and tags.
+- **Repository List**: Displays a clean, card-based layout for each repository.
 
-## ⚠️ Important Note on Disk Space
-This dashboard deletes **Image Manifests** (references). To reclaim physical disk space, you must run the Docker Registry Garbage Collector.
-Usually, this is a separate background process or command:
-```bash
-# Example for standard registry container
-docker exec registry bin/registry garbage-collect /etc/docker/registry/config.yml
-```
+## 🧹 2. Intelligent Retention Policies
+Automate the cleanup of old or unused images to save storage costs.
+
+![Image Retention](./web/image2.png)
+
+- **Cleanup Logic**: Set "Keep Last N" or age-based limits.
+- **Advanced Filtering**: Use Regex patterns (e.g., `^latest$`) to protect critical tags from deletion.
+- **Execution Status**: Real-time tracking of the "Last Run" timestamp.
+
+## 🛡️ 3. Vulnerability Scanning Results
+Deep security analysis for individual image tags using industry-standard scanners.
+
+![Vulnerability Scan](./web/image3.png)
+
+- **Dual-Scanner Integration**: View results from both **Trivy** and **OSV** in a unified tabbed interface.
+- **Severity Badges**: Color-coded categorization for quick prioritization of security fixes.
+- **Direct Links**: Clickable IDs that link directly to the official security advisory databases.
+
+## 📊 4. Global Security Insights
+A high-level dashboard for security officers to assess the health of the entire registry.
+
+![Vulnerability Report](./web/image4.png)
+
+- **Aggregated Summary**: Bold counters showing the total findings categorized by severity.
+- **Multidimensional Filters**: Search by CVE ID, Package, or Repository across the entire registry.
+
+## ⚙️ 5. Storage & Registry Control
+Manage the underlying infrastructure and the lifecycle of the embedded registry.
+
+![Storage Settings](./web/image5.png)
+
+- **Lifecycle Management**: Dedicated buttons to **Start**, **Stop**, or **Restart** the registry.
+- **Flexible Storage Backends**: Support for Local, S3-compatible cloud storage, and SFTP.
+
+---
 
 ## 📝 License
 MIT License.

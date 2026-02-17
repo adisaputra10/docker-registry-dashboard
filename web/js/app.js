@@ -730,17 +730,17 @@
                                     } catch (e) { statusHtml = '<span class="badge badge-success">Done</span>'; }
                                     actionHtml = `
                                         <div style="display:flex;gap:8px;align-items:center">
-                                            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation();window.app.toggleReport(${regId},'${escapeHtml(repo)}','${escapeHtml(t.name)}','${detailId}')" style="height:34px;padding:0 14px;border-radius:8px;background:#334155;color:#f1f5f9;border:none;font-weight:500">View Report</button>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation();window.app.toggleReport(${regId},'${escapeHtml(repo)}','${escapeHtml(t.name)}','${detailId}')">View Report</button>
                                             
-                                            <button class="btn btn-sm" onclick="event.stopPropagation();window.app.triggerScan(${regId},'${escapeHtml(repo)}','${escapeHtml(t.name)}','${t.digest}','trivy')" 
-                                                    style="height:34px;padding:0 12px;border:1px solid #475569;border-radius:8px;color:#cbd5e0;background:transparent;font-size:0.85rem;font-weight:500;transition:all 0.2s" 
-                                                    onmouseover="this.style.borderColor='#3b82f6';this.style.color='#60a5fa'" onmouseout="this.style.borderColor='#475569';this.style.color='#cbd5e0'">
+                                            <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();window.app.triggerScan(${regId},'${escapeHtml(repo)}','${escapeHtml(t.name)}','${t.digest}','trivy')" 
+                                                    title="Run Trivy Scan"
+                                                    style="border:1px solid var(--border-color);color:var(--text-secondary)">
                                                 Trivy
                                             </button>
                                             
-                                            <button class="btn btn-sm" onclick="event.stopPropagation();window.app.triggerScan(${regId},'${escapeHtml(repo)}','${escapeHtml(t.name)}','${t.digest}','osv')" 
-                                                    style="height:34px;padding:0 12px;border:1px solid #475569;border-radius:8px;color:#cbd5e0;background:transparent;font-size:0.85rem;font-weight:500;transition:all 0.2s" 
-                                                    onmouseover="this.style.borderColor='#06b6d4';this.style.color='#22d3ee'" onmouseout="this.style.borderColor='#475569';this.style.color='#cbd5e0'">
+                                            <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();window.app.triggerScan(${regId},'${escapeHtml(repo)}','${escapeHtml(t.name)}','${t.digest}','osv')" 
+                                                    title="Run OSV Scan"
+                                                    style="border:1px solid var(--border-color);color:var(--text-secondary)">
                                                 OSV
                                             </button>
                                         </div>
@@ -756,7 +756,7 @@
                                 </tr>
                                 <tr id="${detailId}" style="display:none">
                                     <td colspan="5" style="padding:0">
-                                        <div class="report-content-box" style="padding:20px 24px;background:#151520;border-bottom:1px solid var(--border)"></div>
+                                        <div class="report-content-box" style="padding:20px 24px;background:var(--bg-surface-hover);border-bottom:1px solid var(--border)"></div>
                                     </td>
                                 </tr>`;
                         }).join('')}</tbody></table>`;
@@ -809,17 +809,15 @@
                             cell.innerHTML = html;
                             cell.nextElementSibling.innerHTML = `
                                 <div style="display:flex;gap:8px;align-items:center">
-                                    <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation();window.app.viewScanReport(${regId},'${escapeHtml(repo)}','${escapeHtml(tag)}')" style="height:34px;padding:0 14px;border-radius:8px;background:#334155;color:#f1f5f9;border:none;font-weight:500">View Report</button>
+                                    <button class="btn btn-sm btn-primary" onclick="event.stopPropagation();window.app.viewScanReport(${regId},'${escapeHtml(repo)}','${escapeHtml(tag)}')">View Report</button>
                                     
-                                    <button class="btn btn-sm" onclick="event.stopPropagation();window.app.triggerScan(${regId},'${escapeHtml(repo)}','${escapeHtml(tag)}','','trivy')" 
-                                            style="height:34px;padding:0 12px;border:1px solid #475569;border-radius:8px;color:#cbd5e0;background:transparent;font-size:0.85rem;font-weight:500;transition:all 0.2s" 
-                                            onmouseover="this.style.borderColor='#3b82f6';this.style.color='#60a5fa'" onmouseout="this.style.borderColor='#475569';this.style.color='#cbd5e0'">
+                                    <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();window.app.triggerScan(${regId},'${escapeHtml(repo)}','${escapeHtml(tag)}','','trivy')" 
+                                            style="border:1px solid var(--border-color);color:var(--text-secondary)">
                                         Trivy
                                     </button>
                                     
-                                    <button class="btn btn-sm" onclick="event.stopPropagation();window.app.triggerScan(${regId},'${escapeHtml(repo)}','${escapeHtml(tag)}','','osv')" 
-                                            style="height:34px;padding:0 12px;border:1px solid #475569;border-radius:8px;color:#cbd5e0;background:transparent;font-size:0.85rem;font-weight:500;transition:all 0.2s" 
-                                            onmouseover="this.style.borderColor='#06b6d4';this.style.color='#22d3ee'" onmouseout="this.style.borderColor='#475569';this.style.color='#cbd5e0'">
+                                    <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();window.app.triggerScan(${regId},'${escapeHtml(repo)}','${escapeHtml(tag)}','','osv')" 
+                                            style="border:1px solid var(--border-color);color:var(--text-secondary)">
                                         OSV
                                     </button>
                                 </div>
@@ -1074,22 +1072,22 @@
                 const s = document.createElement('style');
                 s.id = 'report-styles';
                 s.textContent = `
-                  .report-tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; }
-                  .rep-tab { padding: 12px 24px; border: none; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; font-weight: 600; color: #64748b; font-size: 0.95rem; transition: all 0.2s; }
-                  .rep-tab.active { border-bottom-color: #3b82f6; color: #3b82f6; background: #eff6ff; }
-                  .rep-tab:hover:not(.active) { color: #334155; background: #f8fafc; }
+                  .report-tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+                  .rep-tab { padding: 12px 24px; border: none; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; font-weight: 600; color: var(--text-muted); font-size: 0.95rem; transition: all 0.2s; }
+                  .rep-tab.active { border-bottom-color: var(--primary); color: var(--primary); background: var(--info-bg); }
+                  .rep-tab:hover:not(.active) { color: var(--text-primary); background: var(--bg-surface-hover); }
                   .rep-pane { animation: fadeIn 0.3s ease-out; }
-                  .report-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-                  .report-header { background: #f8fafc; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; font-weight: 600; font-size: 0.9rem; color: #334155; display: flex; justify-content: space-between; align-items: center; }
+                  .report-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 16px; overflow: hidden; box-shadow: var(--shadow-sm); }
+                  .report-header { background: var(--bg-surface-hover); padding: 12px 20px; border-bottom: 1px solid var(--border-color); font-weight: 600; font-size: 0.9rem; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center; }
                   .rep-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-                  .rep-table th { text-align: left; padding: 10px 20px; background: #fff; border-bottom: 2px solid #e2e8f0; color: #64748b; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; }
-                  .rep-table td { padding: 10px 20px; border-bottom: 1px solid #f1f5f9; background: #fff; color: #334155; vertical-align: top; }
+                  .rep-table th { text-align: left; padding: 10px 20px; background: var(--bg-surface); border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; }
+                  .rep-table td { padding: 10px 20px; border-bottom: 1px solid var(--bg-surface-hover); background: var(--bg-surface); color: var(--text-primary); vertical-align: top; }
                   .rep-badge { padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; display: inline-block; min-width: 60px; text-align: center; }
                   .rep-critical { background: #fee2e2; color: #991b1b; }
                   .rep-high { background: #ffedd5; color: #9a3412; }
                   .rep-medium { background: #fef9c3; color: #854d0e; }
                   .rep-low { background: #e0f2fe; color: #075985; }
-                  .rep-unknown { background: #f1f5f9; color: #64748b; }
+                  .rep-unknown { background: var(--bg-surface-hover); color: var(--text-muted); }
                   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
                 `;
                 document.head.appendChild(s);
@@ -1105,7 +1103,7 @@
 
             row.style.display = 'table-row';
             const container = row.querySelector('.report-content-box');
-            container.innerHTML = '<div style="padding:24px;text-align:center;color:#64748b">Loading report...</div>';
+            container.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-muted)">Loading report...</div>';
 
             try {
                 const res = await API.getScanResult(regId, repo, tag);
@@ -1137,14 +1135,14 @@
                                 return `<tr>
                                     <td style="font-weight:600">${escapeHtml(v.PkgName)}</td>
                                     <td><span class="rep-badge ${c}">${v.Severity}</span></td>
-                                    <td style="font-family:monospace;color:#64748b">${escapeHtml(v.InstalledVersion)}</td>
-                                    <td style="font-family:monospace;color:#64748b">${escapeHtml(v.FixedVersion || '-')}</td>
-                                    <td><a href="${v.PrimaryURL || '#'}" target="_blank" style="color:#2563eb;text-decoration:none">ID: ${v.VulnerabilityID}</a></td>
+                                    <td style="font-family:monospace;color:var(--text-muted)">${escapeHtml(v.InstalledVersion)}</td>
+                                    <td style="font-family:monospace;color:var(--text-muted)">${escapeHtml(v.FixedVersion || '-')}</td>
+                                    <td><a href="${v.PrimaryURL || '#'}" target="_blank" style="color:var(--primary);text-decoration:none">ID: ${v.VulnerabilityID}</a></td>
                                  </tr>`;
                             }).join('');
                             body = `<table class="rep-table"><thead><tr><th>Package</th><th>Severity</th><th>Installed</th><th>Fixed In</th><th>Vulnerability ID</th></tr></thead><tbody>${rows}</tbody></table>`;
                         } else {
-                            body = `<div style="padding:20px;text-align:center;color:#166534;background:#f0fdf4">No vulnerabilities found in this target.</div>`;
+                            body = `<div style="padding:20px;text-align:center;color:var(--success);background:var(--success-bg)">No vulnerabilities found in this target.</div>`;
                         }
                         content += `
                             <div class="report-card">
@@ -1160,7 +1158,7 @@
                 };
 
                 const renderOSVContent = (rep) => {
-                    if (!rep || !rep.results || !rep.results.length) return `<div class="alert alert-info" style="background:#eff6ff;color:#1e40af;border-color:#dbeafe">No OSV scan data available or no findings.</div>`;
+                    if (!rep || !rep.results || !rep.results.length) return `<div class="alert alert-info" style="background:var(--info-bg);color:var(--info);border-color:var(--info-bg)">No OSV scan data available or no findings.</div>`;
                     let content = '';
                     let findingsCount = 0;
                     rep.results.forEach(res => {
@@ -1176,8 +1174,8 @@
                                 return `<tr>
                                     <td style="font-weight:600">${escapeHtml(pkg.package.name)}</td>
                                     <td><span class="rep-badge ${c}">${sev || 'UNK'}</span></td>
-                                    <td style="font-family:monospace;color:#64748b">${escapeHtml(pkg.package.version)}</td>
-                                    <td><a href="https://osv.dev/vulnerability/${v.id}" target="_blank" style="color:#0ea5e9;text-decoration:none">${v.id}</a></td>
+                                    <td style="font-family:monospace;color:var(--text-muted)">${escapeHtml(pkg.package.version)}</td>
+                                    <td><a href="https://osv.dev/vulnerability/${v.id}" target="_blank" style="color:var(--accent);text-decoration:none">${v.id}</a></td>
                                     <td>${escapeHtml(v.summary || '')}</td>
                                  </tr>`;
                             }).join('');
@@ -1218,10 +1216,10 @@
                         </button>
                     </div>
                     <div class="rep-pane rep-pane-trivy" style="display:${activeTab === 'trivy' ? 'block' : 'none'}">
-                        ${!reports.trivy ? '<div style="padding:32px;text-align:center;color:#64748b;font-style:italic;background:#f8fafc;border-radius:8px;border:1px dashed #cbd5e0">Trivy scan has not been run or no data.</div><div style="text-align:center;margin-top:16px"><button class="btn btn-sm btn-outline-primary" onclick="window.app.triggerScan(this.dataset.reg, this.dataset.repo, this.dataset.tag, \'\', \'trivy\')" data-reg="${regId}" data-repo="${escapeHtml(repo)}" data-tag="${escapeHtml(tag)}">Run Trivy Scan</button></div>' : trivyHTML}
+                        ${!reports.trivy ? '<div style="padding:32px;text-align:center;color:var(--text-muted);font-style:italic;background:var(--bg-surface-hover);border-radius:8px;border:1px dashed var(--border-color)">Trivy scan has not been run or no data.</div><div style="text-align:center;margin-top:16px"><button class="btn btn-sm btn-outline-primary" onclick="window.app.triggerScan(this.dataset.reg, this.dataset.repo, this.dataset.tag, \'\', \'trivy\')" data-reg="${regId}" data-repo="${escapeHtml(repo)}" data-tag="${escapeHtml(tag)}">Run Trivy Scan</button></div>' : trivyHTML}
                     </div>
                     <div class="rep-pane rep-pane-osv" style="display:${activeTab === 'osv' ? 'block' : 'none'}">
-                        ${!reports.osv ? '<div style="padding:32px;text-align:center;color:#64748b;font-style:italic;background:#f8fafc;border-radius:8px;border:1px dashed #cbd5e0">OSV scan has not been run.</div><div style="text-align:center;margin-top:16px"><button class="btn btn-sm btn-outline-info" onclick="window.app.triggerScan(this.dataset.reg, this.dataset.repo, this.dataset.tag, \'\', \'osv\')" data-reg="${regId}" data-repo="${escapeHtml(repo)}" data-tag="${escapeHtml(tag)}">Run OSV Scan</button></div>' : osvHTML}
+                        ${!reports.osv ? '<div style="padding:32px;text-align:center;color:var(--text-muted);font-style:italic;background:var(--bg-surface-hover);border-radius:8px;border:1px dashed var(--border-color)">OSV scan has not been run.</div><div style="text-align:center;margin-top:16px"><button class="btn btn-sm btn-outline-info" onclick="window.app.triggerScan(this.dataset.reg, this.dataset.repo, this.dataset.tag, \'\', \'osv\')" data-reg="${regId}" data-repo="${escapeHtml(repo)}" data-tag="${escapeHtml(tag)}">Run OSV Scan</button></div>' : osvHTML}
                     </div>
                 `;
 
@@ -1307,7 +1305,11 @@
         // Vulnerability Report Methods
         async loadVulnerabilities(regId) {
             this._selectedRegistry = regId;
-            this._allVulns = []; // Store for filtering
+            this._allVulns = [];
+            this._filteredVulns = [];
+            this._vulnPage = 1;
+            this._vulnLimit = 10;
+
             const area = document.getElementById('vuln-report-content');
             if (!area) return;
             area.innerHTML = showLoading();
@@ -1316,21 +1318,32 @@
                 const res = await API.listVulnerabilities(regId);
                 const vulns = res.data || [];
                 this._allVulns = vulns;
+                this._filteredVulns = vulns;
 
                 if (!vulns.length) {
                     area.innerHTML = showEmpty('🛡️', 'No vulnerabilities found', 'Scan some images first to see vulnerability reports.');
                     return;
                 }
 
-                this.renderVulnerabilitiesTable(vulns);
+                this.renderVulnerabilitiesTable();
             } catch (e) {
                 area.innerHTML = showEmpty('⚠️', 'Error', e.message);
             }
         },
 
-        renderVulnerabilitiesTable(vulns) {
+        renderVulnerabilitiesTable() {
+            const vulns = this._filteredVulns || [];
             const area = document.getElementById('vuln-report-content');
             if (!area) return;
+
+            // Pagination Logic
+            const totalPages = Math.ceil(vulns.length / this._vulnLimit) || 1;
+            if (this._vulnPage > totalPages) this._vulnPage = totalPages;
+            if (this._vulnPage < 1) this._vulnPage = 1;
+
+            const start = (this._vulnPage - 1) * this._vulnLimit;
+            const end = start + this._vulnLimit;
+            const pagedVulns = vulns.slice(start, end);
 
             const severityColor = (sev) => {
                 const s = sev.toUpperCase();
@@ -1347,18 +1360,18 @@
             };
 
             const stats = {
-                total: vulns.length,
-                critical: vulns.filter(v => v.severity.toUpperCase() === 'CRITICAL').length,
-                high: vulns.filter(v => v.severity.toUpperCase() === 'HIGH').length,
-                medium: vulns.filter(v => v.severity.toUpperCase() === 'MEDIUM').length,
-                low: vulns.filter(v => v.severity.toUpperCase() === 'LOW').length,
+                total: this._allVulns.length, // Show stats for ALL vulnerabilities
+                critical: this._allVulns.filter(v => v.severity.toUpperCase() === 'CRITICAL').length,
+                high: this._allVulns.filter(v => v.severity.toUpperCase() === 'HIGH').length,
+                medium: this._allVulns.filter(v => v.severity.toUpperCase() === 'MEDIUM').length,
+                low: this._allVulns.filter(v => v.severity.toUpperCase() === 'LOW').length,
             };
 
             let html = `
-                <div class="card fade-in" style="margin-bottom:24px;padding:20px">
-                    <h3 style="margin:0 0 16px 0">📊 Summary</h3>
+                <div class="card fade-in" style="margin-bottom:24px;padding:20px;background:var(--bg-surface)">
+                    <h3 style="margin:0 0 16px 0;color:var(--text-primary)">📊 Summary</h3>
                     <div style="display:flex;gap:16px;flex-wrap:wrap">
-                        <div class="registry-stat"><span class="registry-stat-value">${stats.total}</span><span class="registry-stat-label">Total</span></div>
+                        <div class="registry-stat"><span class="registry-stat-value" style="color:var(--text-primary)">${stats.total}</span><span class="registry-stat-label">Total</span></div>
                         <div class="registry-stat"><span class="registry-stat-value" style="color:#dc2626">${stats.critical}</span><span class="registry-stat-label">Critical</span></div>
                         <div class="registry-stat"><span class="registry-stat-value" style="color:#ea580c">${stats.high}</span><span class="registry-stat-label">High</span></div>
                         <div class="registry-stat"><span class="registry-stat-value" style="color:#d97706">${stats.medium}</span><span class="registry-stat-label">Medium</span></div>
@@ -1366,11 +1379,11 @@
                     </div>
                 </div>
 
-                <div class="card fade-in">
-                    <div style="overflow-x:auto">
+                <div class="card fade-in" style="background:var(--bg-surface)">
+                    <div style="overflow-x:auto;min-height:300px">
                         <table style="width:100%;border-collapse:collapse;font-size:0.875rem">
                             <thead>
-                                <tr style="border-bottom:2px solid var(--border);color:var(--text-muted);text-align:left">
+                                <tr style="border-bottom:2px solid var(--border);color:var(--text-secondary);text-align:left;background:var(--bg-secondary)">
                                     <th style="padding:12px 16px;font-weight:600">CVE/ID</th>
                                     <th style="padding:12px 16px;font-weight:600">Severity</th>
                                     <th style="padding:12px 16px;font-weight:600">Package</th>
@@ -1382,28 +1395,50 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                ${vulns.map((v, idx) => `
-                                    <tr class="vuln-row" data-id="${v.id}" data-severity="${v.severity}" data-repo="${v.repository}" data-tag="${v.tag}" data-scanner="${v.scanner}" style="border-bottom:1px solid var(--border);transition:background 0.2s" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background=''">
+                                ${pagedVulns.map((v, idx) => `
+                                    <tr class="vuln-row" data-id="${v.id}" style="border-bottom:1px solid var(--border);transition:background 0.2s;color:var(--text-primary)" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background=''">
                                         <td style="padding:12px 16px">
-                                            <div style="font-weight:600;color:var(--text-accent)">${escapeHtml(v.id)}</div>
+                                            <div style="font-weight:600;color:var(--primary)">${escapeHtml(v.id)}</div>
                                             ${v.description ? `<div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px">${escapeHtml(v.description.substring(0, 100))}${v.description.length > 100 ? '...' : ''}</div>` : ''}
                                         </td>
                                         <td style="padding:12px 16px">${severityBadge(v.severity)}</td>
                                         <td style="padding:12px 16px;font-family:monospace;font-size:0.8rem">${escapeHtml(v.package)}</td>
                                         <td style="padding:12px 16px;font-family:monospace;font-size:0.8rem;color:var(--text-muted)">${escapeHtml(v.version)}</td>
-                                        <td style="padding:12px 16px;font-family:monospace;font-size:0.8rem">${v.fixed_version ? '<span style="color:#10b981">' + escapeHtml(v.fixed_version) + '</span>' : '<span style="color:var(--text-muted)">-</span>'}</td>
+                                        <td style="padding:12px 16px;font-family:monospace;font-size:0.8rem">${v.fixed_version ? '<span style="color:var(--success)">' + escapeHtml(v.fixed_version) + '</span>' : '<span style="color:var(--text-muted)">-</span>'}</td>
                                         <td style="padding:12px 16px">${escapeHtml(v.repository)}</td>
-                                        <td style="padding:12px 16px"><span class="badge badge-secondary">${escapeHtml(v.tag)}</span></td>
+                                        <td style="padding:12px 16px"><span class="badge badge-secondary" style="background:#e2e8f0;color:#334155">${escapeHtml(v.tag)}</span></td>
                                         <td style="padding:12px 16px"><span class="badge ${v.scanner === 'Trivy' ? 'badge-primary' : 'badge-info'}" style="font-size:0.7rem">${escapeHtml(v.scanner)}</span></td>
                                     </tr>
                                 `).join('')}
+                                ${!pagedVulns.length ? '<tr><td colspan="8" style="padding:32px;text-align:center;color:var(--text-muted)">No vulnerabilities match the current filter.</td></tr>' : ''}
                             </tbody>
                         </table>
+                    </div>
+                    
+                    <!-- Pagination Controls -->
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-top:1px solid var(--border)">
+                        <div style="font-size:0.85rem;color:var(--text-muted)">
+                            Showing ${start + 1}-${Math.min(end, vulns.length)} of ${vulns.length}
+                        </div>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <button class="btn btn-sm btn-ghost" onclick="window.app.changeVulnPage(-1)" ${this._vulnPage <= 1 ? 'disabled' : ''}>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Prev
+                            </button>
+                            <span style="font-size:0.9rem;font-weight:600;min-width:80px;text-align:center;color:var(--text-primary)">Page ${this._vulnPage} of ${totalPages}</span>
+                            <button class="btn btn-sm btn-ghost" onclick="window.app.changeVulnPage(1)" ${this._vulnPage >= totalPages ? 'disabled' : ''}>
+                                Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
 
             area.innerHTML = html;
+        },
+
+        changeVulnPage(delta) {
+            this._vulnPage += delta;
+            this.renderVulnerabilitiesTable();
         },
 
         filterVulnerabilities() {
@@ -1413,10 +1448,10 @@
             const filterSeverity = (document.getElementById('vuln-filter-severity')?.value || '').toUpperCase();
             const filterScanner = (document.getElementById('vuln-filter-scanner')?.value || '');
 
-            const filtered = this._allVulns.filter(v => {
+            this._filteredVulns = this._allVulns.filter(v => {
                 // Search in ID, package, and description
-                const matchSearch = !searchTerm || 
-                    v.id.toLowerCase().includes(searchTerm) || 
+                const matchSearch = !searchTerm ||
+                    v.id.toLowerCase().includes(searchTerm) ||
                     v.package.toLowerCase().includes(searchTerm) ||
                     (v.description && v.description.toLowerCase().includes(searchTerm));
 
@@ -1428,7 +1463,8 @@
                 return matchSearch && matchRepo && matchTag && matchSeverity && matchScanner;
             });
 
-            this.renderVulnerabilitiesTable(filtered);
+            this._vulnPage = 1; // Reset to page 1
+            this.renderVulnerabilitiesTable();
         },
     };
 

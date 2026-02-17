@@ -223,18 +223,18 @@ func (h *Handler) SaveScanPolicy(w http.ResponseWriter, r *http.Request) {
 
 // VulnerabilityItem represents a single vulnerability finding
 type VulnerabilityItem struct {
-	ID               string    `json:"id"`
-	Package          string    `json:"package"`
-	Version          string    `json:"version"`
-	FixedVersion     string    `json:"fixed_version"`
-	Severity         string    `json:"severity"`
-	Description      string    `json:"description"`
-	Scanner          string    `json:"scanner"` // "trivy" or "osv"
-	Repository       string    `json:"repository"`
-	Tag              string    `json:"tag"`
-	Digest           string    `json:"digest"`
-	RegistryID       int64     `json:"registry_id"`
-	ScannedAt        time.Time `json:"scanned_at"`
+	ID           string    `json:"id"`
+	Package      string    `json:"package"`
+	Version      string    `json:"version"`
+	FixedVersion string    `json:"fixed_version"`
+	Severity     string    `json:"severity"`
+	Description  string    `json:"description"`
+	Scanner      string    `json:"scanner"` // "trivy" or "osv"
+	Repository   string    `json:"repository"`
+	Tag          string    `json:"tag"`
+	Digest       string    `json:"digest"`
+	RegistryID   int64     `json:"registry_id"`
+	ScannedAt    time.Time `json:"scanned_at"`
 }
 
 // ListVulnerabilities returns all vulnerabilities from all scans
@@ -289,7 +289,7 @@ func (h *Handler) ListVulnerabilities(w http.ResponseWriter, r *http.Request) {
 
 func extractTrivyVulnerabilities(data json.RawMessage, scan models.VulnerabilityScan) []VulnerabilityItem {
 	var result []VulnerabilityItem
-	
+
 	var trivyReport scanner.TrivyReport
 	if err := json.Unmarshal(data, &trivyReport); err != nil {
 		return result
@@ -320,7 +320,7 @@ func extractTrivyVulnerabilities(data json.RawMessage, scan models.Vulnerability
 
 func extractOSVVulnerabilities(data json.RawMessage, scan models.VulnerabilityScan) []VulnerabilityItem {
 	var result []VulnerabilityItem
-	
+
 	var osvOutput scanner.OSVOutput
 	if err := json.Unmarshal(data, &osvOutput); err != nil {
 		return result
@@ -330,7 +330,12 @@ func extractOSVVulnerabilities(data json.RawMessage, scan models.VulnerabilitySc
 		for _, pkg := range res.Packages {
 			for _, vuln := range pkg.Vulnerabilities {
 				severity := "UNKNOWN"
-				if len(vuln.Severity) > 0 {
+				if vuln.DatabaseSpecific != nil {
+					if s, ok := vuln.DatabaseSpecific["severity"].(string); ok {
+						severity = s
+					}
+				}
+				if severity == "UNKNOWN" && len(vuln.Severity) > 0 {
 					severity = vuln.Severity[0].Score
 				}
 

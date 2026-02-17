@@ -116,6 +116,14 @@ func (s *Scheduler) triggerPolicy(p models.ScanPolicy) {
 		}
 	}
 
+	var tagRe *regexp.Regexp
+	if p.FilterTags != "" {
+		tagRe, err = regexp.Compile(p.FilterTags)
+		if err != nil {
+			log.Printf("⚠️ Scheduler: Invalid tag filter regex for policy %d: %v", p.ID, err)
+		}
+	}
+
 	count := 0
 	for _, repo := range repos {
 		repoName := repo.Name
@@ -129,6 +137,9 @@ func (s *Scheduler) triggerPolicy(p models.ScanPolicy) {
 		}
 
 		for _, tag := range tags {
+			if tagRe != nil && !tagRe.MatchString(tag.Name) {
+				continue
+			}
 			// Queue Job
 			select {
 			case s.jobChan <- ScanJob{

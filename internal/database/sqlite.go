@@ -111,15 +111,18 @@ func (db *DB) migrate() error {
 		next_run_at DATETIME,
 		last_run_at DATETIME,
 		filter_repos TEXT DEFAULT '',
+		filter_tags TEXT DEFAULT '',
 		FOREIGN KEY(registry_id) REFERENCES registries(id) ON DELETE CASCADE
 	);
 	`
 	if _, err := db.conn.Exec(scanPolicySchema); err != nil {
 		return err
 	}
+	db.conn.Exec("ALTER TABLE scan_policies ADD COLUMN filter_tags TEXT DEFAULT ''")
 	db.conn.Exec("ALTER TABLE retention_policies ADD COLUMN filter_repos TEXT DEFAULT ''")
 	db.conn.Exec("ALTER TABLE retention_policies ADD COLUMN exclude_repos TEXT DEFAULT ''")
 	db.conn.Exec("ALTER TABLE retention_policies ADD COLUMN exclude_tags TEXT DEFAULT ''")
+	db.conn.Exec("ALTER TABLE scan_policies ADD COLUMN filter_tags TEXT DEFAULT ''")
 
 	// Vulnerability Scans table
 	_, err := db.conn.Exec(`CREATE TABLE IF NOT EXISTS vuln_scans (
@@ -232,12 +235,12 @@ func (db *DB) ListScans(registryID int64) ([]models.VulnerabilityScan, error) {
 // GetScanPolicy returns the policy for a registry, or default if not set
 func (db *DB) GetScanPolicy(registryID int64) (*models.ScanPolicy, error) {
 	row := db.conn.QueryRow(`
-		SELECT id, registry_id, enabled, interval_hours, next_run_at, last_run_at, filter_repos 
+		SELECT id, registry_id, enabled, interval_hours, next_run_at, last_run_at, filter_repos, filter_tags 
 		FROM scan_policies WHERE registry_id=?`, registryID)
 
-	p := &models.ScanPolicy{RegistryID: registryID, IntervalHours: 24}
+	p := &models.ScanPolicy{RegistryID: registryID, IntervalHours: 24, FilterTags: "latest"}
 	var nextRun, lastRun sql.NullTime
-	if err := row.Scan(&p.ID, &p.RegistryID, &p.Enabled, &p.IntervalHours, &nextRun, &lastRun, &p.FilterRepos); err != nil {
+	if err := row.Scan(&p.ID, &p.RegistryID, &p.Enabled, &p.IntervalHours, &nextRun, &lastRun, &p.FilterRepos, &p.FilterTags); err != nil {
 		if err == sql.ErrNoRows {
 			return p, nil
 		}
@@ -255,21 +258,22 @@ func (db *DB) GetScanPolicy(registryID int64) (*models.ScanPolicy, error) {
 // SaveScanPolicy creates or updates a policy
 func (db *DB) SaveScanPolicy(p *models.ScanPolicy) error {
 	_, err := db.conn.Exec(`
-		INSERT INTO scan_policies (registry_id, enabled, interval_hours, next_run_at, last_run_at, filter_repos)
-		VALUES (?, ?, ?, ?, ?, ?)
+		INSERT INTO scan_policies (registry_id, enabled, interval_hours, next_run_at, last_run_at, filter_repos, filter_tags)
+		VALUES (?, ?, ?, ?, ?, ?, ?)
 		ON CONFLICT(registry_id) DO UPDATE SET
 			enabled=excluded.enabled,
 			interval_hours=excluded.interval_hours,
 			next_run_at=excluded.next_run_at,
-			filter_repos=excluded.filter_repos
-	`, p.RegistryID, p.Enabled, p.IntervalHours, p.NextRunAt, p.LastRunAt, p.FilterRepos)
+			filter_repos=excluded.filter_repos,
+			filter_tags=excluded.filter_tags
+	`, p.RegistryID, p.Enabled, p.IntervalHours, p.NextRunAt, p.LastRunAt, p.FilterRepos, p.FilterTags)
 	return err
 }
 
 // ListEnabledScanPolicies returns policies that are enabled
 func (db *DB) ListEnabledScanPolicies() ([]models.ScanPolicy, error) {
 	rows, err := db.conn.Query(`
-		SELECT id, registry_id, enabled, interval_hours, next_run_at, last_run_at, filter_repos
+		SELECT id, registry_id, enabled, interval_hours, next_run_at, last_run_at, filter_repos, filter_tags
 		FROM scan_policies WHERE enabled=1
 	`)
 	if err != nil {
@@ -281,7 +285,7 @@ func (db *DB) ListEnabledScanPolicies() ([]models.ScanPolicy, error) {
 	for rows.Next() {
 		var p models.ScanPolicy
 		var nextRun, lastRun sql.NullTime
-		if err := rows.Scan(&p.ID, &p.RegistryID, &p.Enabled, &p.IntervalHours, &nextRun, &lastRun, &p.FilterRepos); err != nil {
+		if err := rows.Scan(&p.ID, &p.RegistryID, &p.Enabled, &p.IntervalHours, &nextRun, &lastRun, &p.FilterRepos, &p.FilterTags); err != nil {
 			continue
 		}
 		if nextRun.Valid {

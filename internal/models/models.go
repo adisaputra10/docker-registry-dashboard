@@ -63,7 +63,8 @@ type ScanPolicy struct {
 	IntervalHours int       `json:"interval_hours"` // Run every N hours
 	NextRunAt     time.Time `json:"next_run_at"`
 	LastRunAt     time.Time `json:"last_run_at"`
-	FilterRepos   string    `json:"filter_repos"` // Regex to include
+	FilterRepos   string    `json:"filter_repos"` // Regex to include repos
+	FilterTags    string    `json:"filter_tags"`  // Regex to include tags
 }
 
 // VulnerabilityScan represents a trivy scan result

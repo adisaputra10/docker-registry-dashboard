@@ -2,38 +2,38 @@
    CSS Custom Properties (Theme)
    ============================ */
 :root {
-    /* Colors */
-    --bg-primary: #030712;
-    --bg-secondary: #0a0f1e;
-    --bg-surface: rgba(15, 23, 42, 0.7);
-    --bg-surface-hover: rgba(30, 41, 59, 0.7);
-    --bg-card: rgba(15, 23, 42, 0.6);
+    /* Colors - Light Theme */
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-surface: rgba(255, 255, 255, 0.9);
+    --bg-surface-hover: #f1f5f9;
+    --bg-card: rgba(255, 255, 255, 0.85);
 
-    --border-color: rgba(99, 102, 241, 0.15);
-    --border-color-hover: rgba(99, 102, 241, 0.35);
+    --border-color: #e2e8f0;
+    --border-color-hover: #cbd5e0;
     --border-color-focus: rgba(99, 102, 241, 0.6);
 
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
     --text-muted: #64748b;
-    --text-accent: #818cf8;
+    --text-accent: #4f46e5;
 
-    --primary: #6366f1;
-    --primary-hover: #818cf8;
-    --primary-glow: rgba(99, 102, 241, 0.4);
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-glow: rgba(79, 70, 229, 0.25);
 
-    --accent: #06b6d4;
-    --accent-hover: #22d3ee;
-    --accent-glow: rgba(6, 182, 212, 0.3);
+    --accent: #0891b2;
+    --accent-hover: #06b6d4;
+    --accent-glow: rgba(8, 145, 178, 0.2);
 
     --success: #10b981;
-    --success-bg: rgba(16, 185, 129, 0.15);
+    --success-bg: #ecfdf5;
     --warning: #f59e0b;
-    --warning-bg: rgba(245, 158, 11, 0.15);
+    --warning-bg: #fffbeb;
     --danger: #ef4444;
-    --danger-bg: rgba(239, 68, 68, 0.15);
+    --danger-bg: #fef2f2;
     --info: #3b82f6;
-    --info-bg: rgba(59, 130, 246, 0.15);
+    --info-bg: #eff6ff;
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
@@ -66,7 +66,9 @@
 /* ============================
    Reset & Base
    ============================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -93,13 +95,16 @@ body {
     width: 6px;
     height: 6px;
 }
+
 ::-webkit-scrollbar-track {
     background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
     background: rgba(99, 102, 241, 0.3);
     border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(99, 102, 241, 0.5);
 }
@@ -127,6 +132,7 @@ body {
     pointer-events: none;
     animation: glowFloat 15s ease-in-out infinite;
 }
+
 .bg-glow-1 {
     width: 500px;
     height: 500px;
@@ -135,6 +141,7 @@ body {
     right: -100px;
     opacity: 0.15;
 }
+
 .bg-glow-2 {
     width: 400px;
     height: 400px;
@@ -146,9 +153,19 @@ body {
 }
 
 @keyframes glowFloat {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -20px) scale(1.05); }
-    66% { transform: translate(-20px, 15px) scale(0.95); }
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -20px) scale(1.05);
+    }
+
+    66% {
+        transform: translate(-20px, 15px) scale(0.95);
+    }
 }
 
 /* ============================
@@ -314,8 +331,15 @@ body {
 }
 
 @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
-    50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
 }
 
 /* ============================
@@ -484,10 +508,21 @@ body {
     opacity: 0;
 }
 
-.stat-card:nth-child(1) { animation-delay: 0.05s; }
-.stat-card:nth-child(2) { animation-delay: 0.1s; }
-.stat-card:nth-child(3) { animation-delay: 0.15s; }
-.stat-card:nth-child(4) { animation-delay: 0.2s; }
+.stat-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.stat-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.stat-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.stat-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
 
 .stat-card:hover {
     border-color: var(--border-color-hover);
@@ -508,10 +543,21 @@ body {
     pointer-events: none;
 }
 
-.stat-card.stat-registries::after { background: var(--primary); }
-.stat-card.stat-images::after { background: var(--accent); }
-.stat-card.stat-tags::after { background: var(--success); }
-.stat-card.stat-storage::after { background: var(--warning); }
+.stat-card.stat-registries::after {
+    background: var(--primary);
+}
+
+.stat-card.stat-images::after {
+    background: var(--accent);
+}
+
+.stat-card.stat-tags::after {
+    background: var(--success);
+}
+
+.stat-card.stat-storage::after {
+    background: var(--warning);
+}
 
 .stat-icon {
     width: 48px;
@@ -528,10 +574,25 @@ body {
     height: 24px;
 }
 
-.stat-registries .stat-icon { background: rgba(99, 102, 241, 0.15); color: var(--primary); }
-.stat-images .stat-icon { background: rgba(6, 182, 212, 0.15); color: var(--accent); }
-.stat-tags .stat-icon { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-.stat-storage .stat-icon { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+.stat-registries .stat-icon {
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--primary);
+}
+
+.stat-images .stat-icon {
+    background: rgba(6, 182, 212, 0.15);
+    color: var(--accent);
+}
+
+.stat-tags .stat-icon {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+}
+
+.stat-storage .stat-icon {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning);
+}
 
 .stat-value {
     font-size: 2rem;
@@ -576,6 +637,7 @@ body {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -587,6 +649,7 @@ body {
         opacity: 0;
         transform: translateX(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -594,8 +657,13 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes scaleIn {
@@ -603,6 +671,7 @@ body {
         opacity: 0;
         transform: scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -610,12 +679,19 @@ body {
 }
 
 @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ============================
@@ -1081,23 +1157,60 @@ body {
     height: 16px;
 }
 
-.toast.toast-success { border-left: 3px solid var(--success); }
-.toast.toast-success .toast-icon { color: var(--success); }
-.toast.toast-error { border-left: 3px solid var(--danger); }
-.toast.toast-error .toast-icon { color: var(--danger); }
-.toast.toast-warning { border-left: 3px solid var(--warning); }
-.toast.toast-warning .toast-icon { color: var(--warning); }
-.toast.toast-info { border-left: 3px solid var(--info); }
-.toast.toast-info .toast-icon { color: var(--info); }
+.toast.toast-success {
+    border-left: 3px solid var(--success);
+}
+
+.toast.toast-success .toast-icon {
+    color: var(--success);
+}
+
+.toast.toast-error {
+    border-left: 3px solid var(--danger);
+}
+
+.toast.toast-error .toast-icon {
+    color: var(--danger);
+}
+
+.toast.toast-warning {
+    border-left: 3px solid var(--warning);
+}
+
+.toast.toast-warning .toast-icon {
+    color: var(--warning);
+}
+
+.toast.toast-info {
+    border-left: 3px solid var(--info);
+}
+
+.toast.toast-info .toast-icon {
+    color: var(--info);
+}
 
 @keyframes toastSlideIn {
-    from { opacity: 0; transform: translateX(80px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(80px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @keyframes toastSlideOut {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(80px); }
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(80px);
+    }
 }
 
 /* ============================
@@ -1125,10 +1238,9 @@ body {
 
 .skeleton {
     background: linear-gradient(90deg,
-        rgba(99, 102, 241, 0.05) 25%,
-        rgba(99, 102, 241, 0.1) 50%,
-        rgba(99, 102, 241, 0.05) 75%
-    );
+            rgba(99, 102, 241, 0.05) 25%,
+            rgba(99, 102, 241, 0.1) 50%,
+            rgba(99, 102, 241, 0.05) 75%);
     background-size: 400% 100%;
     animation: shimmer 1.5s infinite;
     border-radius: var(--radius-sm);
